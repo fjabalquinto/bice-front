@@ -1,0 +1,42 @@
+<section *ngIf="!loading && !error">
+    <div class="card mt-3 mb-2">
+        <div class="card-header">
+            <button type="button" class="btn btn-outline-primary mr-3" [routerLink]="['/indicators']">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z">
+                    </path>
+                </svg>
+            </button>
+           <h5 class="d-inline">{{indicatorValues.key | uppercase }}</h5> 
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{indicatorValues.name}}</h5>
+            <p class="card-text">Valores históricos de {{indicatorValues.key}}</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Valor ({{indicatorValues.unit}})</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let unitValue of indicatorValues.unitValues" (click)="navigateDetail(indicator.key)">
+                        <th scope="row">{{ unitValue.date * 1000 | date }}</th>
+                        <td>{{ unitValue.value }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section class="text-center mt-2 mb-5" *ngIf="loading">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</section>
+<div class="alert alert-danger" role="alert" *ngIf="!loading && error">
+    <h4 class="alert-heading">¡Ups! Algo salió mal...</h4>
+    <p>Estamos presentando inestabilidad en los servicios, esperamos solucionarlos en breve.</p>
+</div>
